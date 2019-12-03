@@ -8,6 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"github.com/gemsorg/dispute/pkg/api/disputecreator"
+	"github.com/gemsorg/dispute/pkg/api/disputeresolver"
 	"github.com/gemsorg/dispute/pkg/api/disputesfetcher"
 	"github.com/gemsorg/dispute/pkg/api/healthchecker"
 	"github.com/gemsorg/dispute/pkg/service"
@@ -22,6 +23,7 @@ func New(
 
 	r.Handle("/_health", healthchecker.MakeHandler(s)).Methods("GET")
 	r.Handle("/disputes", disputecreator.MakeHandler(s)).Methods("POST")
+	r.Handle("/disputes/{dispute_id}/resolve", disputeresolver.MakeHandler(s)).Methods("PATCH")
 	r.Handle("/disputes/pending", disputesfetcher.MakeHandler(s)).Methods("GET")
 	r.Use(authentication.AuthMiddleware)
 	return withHandlers(r)

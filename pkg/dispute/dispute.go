@@ -25,3 +25,9 @@ type Dispute struct {
 }
 
 type Disputes []Dispute
+
+type Resolution struct {
+	DisputeID string `json:"dispute_id"`
+	Status    string `json:"status"`
+	Message   string `json:"resolution_message"`
+}
