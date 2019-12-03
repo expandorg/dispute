@@ -11,6 +11,7 @@ type DisputeService interface {
 	Healthy() bool
 	SetAuthData(data authentication.AuthData)
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
+	GetDisputesByStatus(string) (dispute.Disputes, error)
 }
 
 type service struct {
@@ -35,4 +36,12 @@ func (s *service) CreateDispute(d dispute.Dispute) (dispute.Dispute, error) {
 
 func (s *service) SetAuthData(data authentication.AuthData) {
 	s.authorizor.SetAuthData(data)
+}
+
+func (s *service) GetDisputesByStatus(status string) (dispute.Disputes, error) {
+	_, err := s.authorizor.IsModerator()
+	if err != nil {
+		return dispute.Disputes{}, err
+	}
+	return s.store.GetDisputesByStatus(status)
 }
