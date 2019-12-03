@@ -7,6 +7,7 @@ import (
 
 type Storage interface {
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
+	GetDisputesByStatus(string) (dispute.Disputes, error)
 }
 
 type DisputeStore struct {
@@ -47,6 +48,24 @@ func (s *DisputeStore) GetDispute(id uint64) (dispute.Dispute, error) {
 	disp := dispute.Dispute{}
 
 	err := s.DB.Get(&disp, "SELECT * FROM disputes WHERE id=?", id)
+
+	if err != nil {
+		return disp, err
+	}
+	return disp, nil
+}
+
+func (s *DisputeStore) GetDisputesByStatus(status string) (dispute.Disputes, error) {
+	disp := dispute.Disputes{}
+	query := "SELECT * FROM disputes WHERE active IS TRUE"
+	var err error
+	// if status is empty, then give me all statuses
+	if status != "" {
+		query = query + " AND status=?"
+		err = s.DB.Select(&disp, query, status)
+	} else {
+		err = s.DB.Select(&disp, query)
+	}
 
 	if err != nil {
 		return disp, err
