@@ -1,7 +1,7 @@
 CREATE TABLE `disputes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dispute_message` varchar(255) NOT NULL DEFAULT '',
-  `resolution_messageCopy` varchar(255) NOT NULL DEFAULT '',
+  `resolution_message` varchar(255) NOT NULL DEFAULT '',
   `status` varchar(40) NOT NULL DEFAULT '',
   `active` tinyint(4) NOT NULL DEFAULT '1',
   `response_id` int(11) unsigned NOT NULL,
@@ -12,5 +12,7 @@ CREATE TABLE `disputes` (
   `verifier_id` int(11) unsigned NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
 	`updated_at` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `response_id` (`response_id`),
+  KEY `worker_id` (`worker_id`)
 )
