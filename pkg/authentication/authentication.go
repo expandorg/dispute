@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gemsorg/backend/constants"
 )
 
 const (
@@ -15,6 +17,7 @@ const (
 	ExpirationKey            = "exp"
 	UserIDKey                = "uid"
 	IssuerKey                = "iss"
+	SessionDuration          = 8760 * time.Hour // 1 year
 )
 
 type AuthData struct {
@@ -43,7 +46,16 @@ func ParseAuthData(ctx context.Context) (AuthData, error) {
 	}, nil
 }
 
-// extractAuthorizationHeaderFromContext finds and extracts the Authorization JWT from a context.
+func GenerateSessionJWT(userID uint64) (string, error) {
+	expiration := time.Now().Add(SessionDuration).Unix()
+	claims := jwt.MapClaims{
+		IssuerKey:     os.Getenv("FRONTEND_ADDRESS"),
+		ExpirationKey: expiration,
+		UserIDKey:     userID,
+	}
+	return generateJWT(claims, constants.JwtSecret)
+}
+
 func extractAuthorizationHeaderFromContext(ctx context.Context) (string, error) {
 	jwt, err := extractJWTFromContext(ctx)
 
@@ -83,4 +95,9 @@ func parseJWT(tokenString string) (jwt.MapClaims, error) {
 		return claims, nil
 	}
 	return nil, errors.New("Unable to parse JWT")
+}
+
+func generateJWT(claims jwt.MapClaims, secret []byte) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(secret)
 }
