@@ -77,7 +77,7 @@ func (s *DisputeStore) GetDisputesByStatus(status string) (dispute.Disputes, err
 func (s *DisputeStore) ResolveDispute(resolution dispute.Resolution) (bool, error) {
 	var updated bool
 	result, err := s.DB.Exec(
-		"UPDATE disputes SET status=?, resolution_message=? WHERE id=?",
+		"UPDATE disputes SET status=?, resolution_message=?, active=0 WHERE id=?",
 		resolution.Status, resolution.Message, resolution.DisputeID)
 
 	if err != nil {
