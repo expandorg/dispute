@@ -40,6 +40,8 @@ spec:
             configMapKeyRef:
               name: dispute-data
               key: JWT_SECRET
+        ports:
+        - containerPort: 8181
         resources: {}
       
 ---
@@ -88,6 +90,6 @@ spec:
     app: dispute
   ports:
   - port: 80
-    targetPort: 3000
+    targetPort: 8181
   type: LoadBalancer
 

@@ -21,6 +21,6 @@ WORKDIR /app
 
 COPY --from=build-stage  /go/src/github.com/gemsorg/dispute/bin/dispute .
 
-EXPOSE 3000
+EXPOSE 8181
 
 CMD ["./dispute"]
