@@ -19,22 +19,22 @@ spec:
         command: ["./dispute"]
         args: ["--env=production"]
         env:
-        - name: DB_HOST
+        - name: DISPUTE_DB_HOST
           value: "cloudsql-proxy"
-        - name: DB_PORT
+        - name: DISPUTE_DB_PORT
           value: "3306"
-        - name: DB_NAME
+        - name: DISPUTE_DB_NAME
           value: "dispute"
-        - name: DB_USER
+        - name: DISPUTE_DB_USER
           valueFrom:
             configMapKeyRef:
               name: dispute-data
-              key: DB_USER
-        - name: DB_PASSWORD
+              key: DISPUTE_DB_USER
+        - name: DISPUTE_DB_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: dispute-data
-              key: DB_PASSWORD
+              key: DISPUTE_DB_PASSWORD
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
@@ -59,22 +59,22 @@ spec:
         image: gcr.io/gems-org/dispute-migration:VERSION
         args: ["composeup"]
         env:
-        - name: DB_HOST
+        - name: DISPUTE_DB_HOST
           value: "cloudsql-proxy"
-        - name: DB_PORT
+        - name: DISPUTE_DB_PORT
           value: "3306"
-        - name: DB_NAME
+        - name: DISPUTE_DB_NAME
           value: "dispute"
-        - name: DB_USER
+        - name: DISPUTE_DB_USER
           valueFrom:
             configMapKeyRef:
               name: dispute-data
-              key: DB_USER
-        - name: DB_PASSWORD
+              key: DISPUTE_DB_USER
+        - name: DISPUTE_DB_PASSWORD
           valueFrom:
             configMapKeyRef:
               name: dispute-data
-              key: DB_PASSWORD
+              key: DISPUTE_DB_PASSWORD
       restartPolicy: Never
   backoffLimit: 4
 ---

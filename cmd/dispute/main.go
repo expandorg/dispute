@@ -19,7 +19,7 @@ func main() {
 	environment := flag.String("env", "local", "use compose in compose-dev")
 	flag.Parse()
 
-	if *environment != "compose" {
+	if *environment == "local" {
 		err := godotenv.Load()
 		if err != nil {
 			log.Fatal("Error loading .env file")

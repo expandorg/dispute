@@ -1,6 +1,6 @@
 # Dispute Service
  
-Backend service for dispute
+Backend service for disputes
 
 ## Getting started 
 
