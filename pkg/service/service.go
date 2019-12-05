@@ -13,6 +13,7 @@ type DisputeService interface {
 	SetAuthData(data authentication.AuthData)
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
 	GetDisputesByStatus(status string) (dispute.Disputes, error)
+	GetDisputesByWorkerID(id uint64) (dispute.Disputes, error)
 	ResolveDispute(dispute.Resolution) (bool, error)
 }
 
@@ -46,6 +47,10 @@ func (s *service) GetDisputesByStatus(status string) (dispute.Disputes, error) {
 		return dispute.Disputes{}, err
 	}
 	return s.store.GetDisputesByStatus(status)
+}
+
+func (s *service) GetDisputesByWorkerID(id uint64) (dispute.Disputes, error) {
+	return s.store.GetDisputesByWorkerID(id)
 }
 
 func (s *service) ResolveDispute(resolution dispute.Resolution) (bool, error) {
