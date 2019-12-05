@@ -22,6 +22,24 @@ func makePendingDisputeFetcherEndpoint(svc service.DisputeService) endpoint.Endp
 	}
 }
 
+func makeDisputeFetcherByWorkerEndpoint(svc service.DisputeService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		data, _ := authentication.ParseAuthData(ctx)
+		svc.SetAuthData(data)
+		req := request.(WorkerDisputesRequest)
+
+		disp, err := svc.GetDisputesByWorkerID(req.WorkerID)
+		if err != nil {
+			return nil, errorResponse(err)
+		}
+		return DisputesResponse{disp}, nil
+	}
+}
+
+type WorkerDisputesRequest struct {
+	WorkerID uint64
+}
+
 type DisputesResponse struct {
 	Disputes dispute.Disputes `json:"disputes"`
 }

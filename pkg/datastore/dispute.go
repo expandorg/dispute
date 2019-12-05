@@ -8,6 +8,7 @@ import (
 type Storage interface {
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
 	GetDisputesByStatus(status string) (dispute.Disputes, error)
+	GetDisputesByWorkerID(id uint64) (dispute.Disputes, error)
 	ResolveDispute(dispute.Resolution) (bool, error)
 }
 
@@ -71,6 +72,17 @@ func (s *DisputeStore) GetDisputesByStatus(status string) (dispute.Disputes, err
 	if err != nil {
 		return disp, err
 	}
+	return disp, nil
+}
+
+func (s *DisputeStore) GetDisputesByWorkerID(id uint64) (dispute.Disputes, error) {
+	disp := dispute.Disputes{}
+
+	err := s.DB.Select(&disp, "SELECT * FROM disputes WHERE worker_id=?", id)
+	if err != nil {
+		return disp, err
+	}
+
 	return disp, nil
 }
 
