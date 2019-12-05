@@ -11,7 +11,6 @@ import (
 
 	"github.com/gemsorg/dispute/pkg/apierror"
 	"github.com/gemsorg/dispute/pkg/authentication"
-	"github.com/gemsorg/svc-kit/http/api"
 )
 
 type Validations struct {
@@ -55,22 +54,26 @@ func serviceRequest(action string, route string, userID uint64, data io.Reader) 
 	serviceURL := fmt.Sprintf("%s/%s", os.Getenv("BACKEND_SVC_URL"), route)
 	authToken, err := authentication.GenerateSessionJWT(userID)
 	if err != nil {
-		return nil, api.Unauthorized(err)
+		return nil, errorResponse(err)
 	}
 	req, err := http.NewRequest(action, serviceURL, data)
 	if err != nil {
-		return nil, api.BadRequest(err)
+		return nil, errorResponse(err)
 	}
 	req.Header.Add("Authorization", "Bearer "+authToken)
 	r, err := client.Do(req)
 	if err != nil || r.StatusCode != 200 {
-		return nil, api.BadRequest(err)
+		return nil, errorResponse(err)
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		return nil, api.BadRequest(err)
+		return nil, errorResponse(err)
 	}
 
 	return body, nil
+}
+
+func errorResponse(err error) *apierror.APIError {
+	return apierror.New(500, err.Error(), err)
 }

@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gemsorg/backend/constants"
 )
 
 const (
@@ -53,7 +52,7 @@ func GenerateSessionJWT(userID uint64) (string, error) {
 		ExpirationKey: expiration,
 		UserIDKey:     userID,
 	}
-	return generateJWT(claims, constants.JwtSecret)
+	return generateJWT(claims, []byte(os.Getenv("JWT_SECRET")))
 }
 
 func extractAuthorizationHeaderFromContext(ctx context.Context) (string, error) {
