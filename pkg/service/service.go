@@ -42,10 +42,11 @@ func (s *service) SetAuthData(data authentication.AuthData) {
 }
 
 func (s *service) GetDisputesByStatus(status string) (dispute.Disputes, error) {
-	_, err := s.authorizor.IsModerator()
-	if err != nil {
-		return dispute.Disputes{}, err
-	}
+	// isMod, err := s.authorizor.IsModerator()
+	// fmt.Println("MOD", isMod)
+	// if !isMod || err != nil {
+	// 	return dispute.Disputes{}, err
+	// }
 	return s.store.GetDisputesByStatus(status)
 }
 
@@ -54,15 +55,14 @@ func (s *service) GetDisputesByWorkerID(id uint64) (dispute.Disputes, error) {
 }
 
 func (s *service) ResolveDispute(resolution dispute.Resolution) (bool, error) {
-	_, err := s.authorizor.IsModerator()
-	if err != nil {
-		return false, err
-	}
+	// isMod, err := s.authorizor.IsModerator()
+	// if err != nil {
+	// 	return false, err
+	// }
 	moderatorID := s.authorizor.GetUserID()
-	if err != nil {
-		return false, err
-	}
+
 	authToken := s.authorizor.GetAuthToken()
+	var err error
 	if resolution.Status == dispute.Accepted {
 		err = verificationsvc.ValidateResponse(resolution.ResponseID, moderatorID, authToken)
 	}
