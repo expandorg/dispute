@@ -26,7 +26,7 @@ func (s *DisputeStore) CreateDispute(d dispute.Dispute) (dispute.Dispute, error)
 	var newDisp dispute.Dispute
 	result, err := s.DB.Exec(
 		"INSERT INTO disputes (dispute_message, status, active, worker_id, response_id, score_id, task_id, job_id, verifier_id) VALUES (?,?,?,?,?,?,?,?,?)",
-		d.DisputeMessage, dispute.InPorgress, true, d.WorkerID, d.ResponseID, d.ScoreID, d.TaskID, d.JobID, d.VerifierID)
+		d.DisputeMessage, dispute.Pending, true, d.WorkerID, d.ResponseID, d.ScoreID, d.TaskID, d.JobID, d.VerifierID)
 
 	if err != nil {
 		return newDisp, err

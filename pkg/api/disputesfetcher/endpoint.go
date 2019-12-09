@@ -14,7 +14,7 @@ func makePendingDisputeFetcherEndpoint(svc service.DisputeService) endpoint.Endp
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		data, _ := authentication.ParseAuthData(ctx)
 		svc.SetAuthData(data)
-		disp, err := svc.GetDisputesByStatus(dispute.InPorgress)
+		disp, err := svc.GetDisputesByStatus(dispute.Pending)
 		if err != nil {
 			return nil, errorResponse(err)
 		}
