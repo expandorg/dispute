@@ -3,6 +3,7 @@ package verificationsvc
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -10,15 +11,14 @@ import (
 	"os"
 
 	"github.com/gemsorg/dispute/pkg/apierror"
-	"github.com/gemsorg/dispute/pkg/authentication"
 )
 
 type Validations struct {
 	IDs []uint64 `json:"ids"`
 }
 
-func ValidateResponse(responseID, verifierID uint64) error {
-	validation := Validations{IDs: []uint64{verifierID}}
+func ValidateResponse(responseID, verifierID uint64, authToken string) error {
+	validation := Validations{IDs: []uint64{responseID}}
 	maxRetries := 3
 	tries := 0
 	url := fmt.Sprintf("admin/responses/verify")
@@ -33,7 +33,7 @@ func ValidateResponse(responseID, verifierID uint64) error {
 		if err != nil {
 			tries = tries + 1
 		} else {
-			_, err = serviceRequest("POST", url, verifierID, body)
+			_, err = serviceRequest("POST", url, verifierID, body, authToken)
 			if err != nil {
 				tries = tries + 1
 			} else {
@@ -49,21 +49,25 @@ func ValidateResponse(responseID, verifierID uint64) error {
 	return nil
 }
 
-func serviceRequest(action string, route string, userID uint64, data io.Reader) ([]byte, error) {
+func serviceRequest(action string, route string, userID uint64, data io.Reader, authToken string) ([]byte, error) {
 	client := &http.Client{}
 	serviceURL := fmt.Sprintf("%s/%s", os.Getenv("BACKEND_SVC_URL"), route)
-	authToken, err := authentication.GenerateSessionJWT(userID)
-	if err != nil {
-		return nil, errorResponse(err)
-	}
+	fmt.Println("D", data)
 	req, err := http.NewRequest(action, serviceURL, data)
 	if err != nil {
 		return nil, errorResponse(err)
 	}
-	req.Header.Add("Authorization", "Bearer "+authToken)
+	// req.AddCookie(&http.Cookie{Name: "JWT", Value: authToken})
+
+	// req.Header.Add("Authorization", "Bearer "+authToken)
 	r, err := client.Do(req)
-	if err != nil || r.StatusCode != 200 {
+	if err != nil {
 		return nil, errorResponse(err)
+	}
+
+	if r.StatusCode != 200 {
+		body, _ := ioutil.ReadAll(r.Body)
+		return nil, errorResponse(errors.New(string(body)))
 	}
 
 	body, err := ioutil.ReadAll(r.Body)

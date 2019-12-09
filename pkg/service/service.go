@@ -58,12 +58,13 @@ func (s *service) ResolveDispute(resolution dispute.Resolution) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	moderatorID, err := s.authorizor.GetModeratorID()
+	moderatorID := s.authorizor.GetUserID()
 	if err != nil {
 		return false, err
 	}
+	authToken := s.authorizor.GetAuthToken()
 	if resolution.Status == dispute.Accepted {
-		err = verificationsvc.ValidateResponse(resolution.ResponseID, moderatorID)
+		err = verificationsvc.ValidateResponse(resolution.ResponseID, moderatorID, authToken)
 	}
 
 	if err != nil {
