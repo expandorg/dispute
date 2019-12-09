@@ -3,9 +3,9 @@ package dispute
 import "time"
 
 const (
-	InPorgress = "inporgress"
-	Accepted   = "accepted"
-	Rejected   = "rejected"
+	Pending  = "pending"
+	Accepted = "accepted"
+	Rejected = "rejected"
 )
 
 type Dispute struct {
