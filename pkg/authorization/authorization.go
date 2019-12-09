@@ -11,7 +11,8 @@ import (
 type Authorizer interface {
 	SetAuthData(data authentication.AuthData)
 	IsModerator() (bool, error)
-	GetModeratorID() (uint64, error)
+	GetUserID() uint64
+	GetAuthToken() string
 }
 
 type authorizor struct {
@@ -38,12 +39,12 @@ func (a *authorizor) IsModerator() (bool, error) {
 	return true, nil
 }
 
-func (a *authorizor) GetModeratorID() (uint64, error) {
-	moderatorID, err := strconv.ParseUint(os.Getenv("MODERATOR_ID"), 10, 64)
-	if err != nil {
-		return 0, UnauthorizedAccess{}
-	}
-	return moderatorID, nil
+func (a *authorizor) GetUserID() uint64 {
+	return a.authData.UserID
+}
+
+func (a *authorizor) GetAuthToken() string {
+	return a.authData.Token
 }
 
 func hasID(id uint64, ids []string) bool {
