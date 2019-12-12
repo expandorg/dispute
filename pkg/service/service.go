@@ -5,7 +5,6 @@ import (
 	"github.com/gemsorg/dispute/pkg/authorization"
 	"github.com/gemsorg/dispute/pkg/datastore"
 	"github.com/gemsorg/dispute/pkg/dispute"
-	"github.com/gemsorg/dispute/pkg/verificationsvc"
 )
 
 type DisputeService interface {
@@ -14,7 +13,7 @@ type DisputeService interface {
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
 	GetDisputesByStatus(status string) (dispute.Disputes, error)
 	GetDisputesByWorkerID(id uint64) (dispute.Disputes, error)
-	ResolveDispute(dispute.Resolution) (bool, error)
+	ResolveDispute(dispute.Resolution) (dispute.Resolved, error)
 }
 
 type service struct {
@@ -54,21 +53,6 @@ func (s *service) GetDisputesByWorkerID(id uint64) (dispute.Disputes, error) {
 	return s.store.GetDisputesByWorkerID(id)
 }
 
-func (s *service) ResolveDispute(resolution dispute.Resolution) (bool, error) {
-	// isMod, err := s.authorizor.IsModerator()
-	// if err != nil {
-	// 	return false, err
-	// }
-	moderatorID := s.authorizor.GetUserID()
-
-	authToken := s.authorizor.GetAuthToken()
-	var err error
-	if resolution.Status == dispute.Accepted {
-		err = verificationsvc.ValidateResponse(resolution.ResponseID, moderatorID, authToken)
-	}
-
-	if err != nil {
-		return false, err
-	}
+func (s *service) ResolveDispute(resolution dispute.Resolution) (dispute.Resolved, error) {
 	return s.store.ResolveDispute(resolution)
 }

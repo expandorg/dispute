@@ -9,7 +9,7 @@ type Storage interface {
 	CreateDispute(dispute.Dispute) (dispute.Dispute, error)
 	GetDisputesByStatus(status string) (dispute.Disputes, error)
 	GetDisputesByWorkerID(id uint64) (dispute.Disputes, error)
-	ResolveDispute(dispute.Resolution) (bool, error)
+	ResolveDispute(dispute.Resolution) (dispute.Resolved, error)
 }
 
 type DisputeStore struct {
@@ -86,8 +86,8 @@ func (s *DisputeStore) GetDisputesByWorkerID(id uint64) (dispute.Disputes, error
 	return disp, nil
 }
 
-func (s *DisputeStore) ResolveDispute(resolution dispute.Resolution) (bool, error) {
-	var updated bool
+func (s *DisputeStore) ResolveDispute(resolution dispute.Resolution) (dispute.Resolved, error) {
+	var updated dispute.Resolved
 	result, err := s.DB.Exec(
 		"UPDATE disputes SET status=?, resolution_message=?, active=0 WHERE id=?",
 		resolution.Status, resolution.Message, resolution.DisputeID)
@@ -100,7 +100,7 @@ func (s *DisputeStore) ResolveDispute(resolution dispute.Resolution) (bool, erro
 	if err != nil || num == 0 {
 		return updated, err
 	} else {
-		updated = true
+		updated.Success = true
 	}
 
 	return updated, nil
