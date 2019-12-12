@@ -32,3 +32,7 @@ type Resolution struct {
 	Status     string `json:"status"`
 	Message    string `json:"resolution_message"`
 }
+
+type Resolved struct {
+	Success bool `json:"success"`
+}

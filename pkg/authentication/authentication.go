@@ -47,16 +47,6 @@ func ParseAuthData(ctx context.Context) (AuthData, error) {
 	}, nil
 }
 
-func GenerateSessionJWT(userID uint64) (string, error) {
-	expiration := time.Now().Add(SessionDuration).Unix()
-	claims := jwt.MapClaims{
-		IssuerKey:     os.Getenv("FRONTEND_ADDRESS"),
-		ExpirationKey: expiration,
-		UserIDKey:     userID,
-	}
-	return generateJWT(claims, []byte(os.Getenv("JWT_SECRET")))
-}
-
 func extractAuthorizationHeaderFromContext(ctx context.Context) (string, error) {
 	jwt, err := extractJWTFromContext(ctx)
 
@@ -96,9 +86,4 @@ func parseJWT(tokenString string) (jwt.MapClaims, error) {
 		return claims, nil
 	}
 	return nil, errors.New("Unable to parse JWT")
-}
-
-func generateJWT(claims jwt.MapClaims, secret []byte) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(secret)
 }
