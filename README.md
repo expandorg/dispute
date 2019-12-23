@@ -1,6 +1,6 @@
 # Dispute Service
  
-Backend service for disputes
+Dispute Service responsible for handling worker's disputes about response rejections. It is also responsible for Admin to view and resolve disputes.
 
 ## Getting started 
 
