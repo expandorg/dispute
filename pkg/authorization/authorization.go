@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gemsorg/dispute/pkg/authentication"
+	"github.com/expandorg/dispute/pkg/authentication"
 )
 
 type Authorizer interface {

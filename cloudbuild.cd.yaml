@@ -6,7 +6,7 @@ steps:
   - id: Test
     name: 'gcr.io/cloud-builders/go'
     args: ['test','./...']
-    env: ['PROJECT_ROOT=github.com/gemsorg/dispute']
+    env: ['PROJECT_ROOT=github.com/expandorg/dispute']
   # # This step builds the container image
   - id: Build
     name: 'gcr.io/cloud-builders/docker'

@@ -3,7 +3,7 @@ package healthchecker
 import (
 	"context"
 
-	service "github.com/gemsorg/dispute/pkg/service"
+	service "github.com/expandorg/dispute/pkg/service"
 
 	"github.com/go-kit/kit/endpoint"
 )

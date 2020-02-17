@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/gemsorg/dispute/pkg/apierror"
-	"github.com/gemsorg/dispute/pkg/dispute"
-	"github.com/gemsorg/dispute/pkg/service"
+	"github.com/expandorg/dispute/pkg/apierror"
+	"github.com/expandorg/dispute/pkg/dispute"
+	"github.com/expandorg/dispute/pkg/service"
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 )

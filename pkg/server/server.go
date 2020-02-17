@@ -3,15 +3,15 @@ package server
 import (
 	"net/http"
 
-	"github.com/gemsorg/dispute/pkg/authentication"
+	"github.com/expandorg/dispute/pkg/authentication"
 
 	"github.com/jmoiron/sqlx"
 
-	"github.com/gemsorg/dispute/pkg/api/disputecreator"
-	"github.com/gemsorg/dispute/pkg/api/disputeresolver"
-	"github.com/gemsorg/dispute/pkg/api/disputesfetcher"
-	"github.com/gemsorg/dispute/pkg/api/healthchecker"
-	"github.com/gemsorg/dispute/pkg/service"
+	"github.com/expandorg/dispute/pkg/api/disputecreator"
+	"github.com/expandorg/dispute/pkg/api/disputeresolver"
+	"github.com/expandorg/dispute/pkg/api/disputesfetcher"
+	"github.com/expandorg/dispute/pkg/api/healthchecker"
+	"github.com/expandorg/dispute/pkg/service"
 	"github.com/gorilla/mux"
 )
 

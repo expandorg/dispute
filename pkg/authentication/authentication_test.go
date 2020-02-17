@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gemsorg/dispute/pkg/mock"
+	"github.com/expandorg/dispute/pkg/mock"
 	"github.com/stretchr/testify/assert"
 )
 
