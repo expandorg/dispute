@@ -1,6 +1,6 @@
 # Dispute Service
  
-Dispute Service responsible for handling worker's disputes about response rejections. It is also responsible for Admin to view and resolve disputes.
+Dispute Service responsible for handling worker's disputes about response rejections. It is also responsible for Admin to view and resolve disputes. [API Documentation](https://documenter.getpostman.com/view/7517177/SzKQxzvi)
 
 ## Getting started 
 
