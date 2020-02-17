@@ -13,11 +13,11 @@ Dispute Service responsible for handling worker's disputes about response reject
 
 Clone the repository with: 
 
-`go get -u github.com/gemsorg/dispute`
+`go get -u github.com/expandorg/dispute`
 
 OR 
 
-create a directory `$GOPATH/src/github/gemsorg` and execute: git clone git@github.com:gemsorg/dispute.git 
+create a directory `$GOPATH/src/github/expandorg` and execute: git clone git@github.com:expandorg/dispute.git 
 
 Run the project dependencies (db, etc.) with `make up`
 

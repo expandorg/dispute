@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/gemsorg/dispute/pkg/authentication"
-	"github.com/gemsorg/dispute/pkg/authorization"
-	"github.com/gemsorg/dispute/pkg/datastore"
-	"github.com/gemsorg/dispute/pkg/dispute"
+	"github.com/expandorg/dispute/pkg/authentication"
+	"github.com/expandorg/dispute/pkg/authorization"
+	"github.com/expandorg/dispute/pkg/datastore"
+	"github.com/expandorg/dispute/pkg/dispute"
 )
 
 type DisputeService interface {

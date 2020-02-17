@@ -1,7 +1,7 @@
 package datastore
 
 import (
-	"github.com/gemsorg/dispute/pkg/dispute"
+	"github.com/expandorg/dispute/pkg/dispute"
 	"github.com/jmoiron/sqlx"
 )
 

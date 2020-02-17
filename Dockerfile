@@ -1,10 +1,10 @@
 FROM golang:1.10-alpine AS build-stage
 
 RUN apk add --update make git
-RUN mkdir -p /go/src/github.com/gemsorg/dispute
-WORKDIR /go/src/github.com/gemsorg/dispute
+RUN mkdir -p /go/src/github.com/expandorg/dispute
+WORKDIR /go/src/github.com/expandorg/dispute
 
-COPY . /go/src/github.com/gemsorg/dispute
+COPY . /go/src/github.com/expandorg/dispute
 
 ARG GIT_COMMIT
 ARG VERSION
@@ -19,7 +19,7 @@ RUN apk --update add ca-certificates
 RUN mkdir /app
 WORKDIR /app
 
-COPY --from=build-stage  /go/src/github.com/gemsorg/dispute/bin/dispute .
+COPY --from=build-stage  /go/src/github.com/expandorg/dispute/bin/dispute .
 
 EXPOSE 8181
 

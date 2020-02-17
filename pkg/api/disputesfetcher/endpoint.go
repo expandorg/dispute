@@ -3,10 +3,10 @@ package disputesfetcher
 import (
 	"context"
 
-	"github.com/gemsorg/dispute/pkg/apierror"
-	"github.com/gemsorg/dispute/pkg/authentication"
-	"github.com/gemsorg/dispute/pkg/dispute"
-	"github.com/gemsorg/dispute/pkg/service"
+	"github.com/expandorg/dispute/pkg/apierror"
+	"github.com/expandorg/dispute/pkg/authentication"
+	"github.com/expandorg/dispute/pkg/dispute"
+	"github.com/expandorg/dispute/pkg/service"
 	"github.com/go-kit/kit/endpoint"
 )
 
