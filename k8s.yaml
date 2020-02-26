@@ -1,0 +1,117 @@
+# BE CAREFUL MODIFYING THIS FILE
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: APP
+spec:
+  selector:
+    matchLabels:
+      app: APP
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: APP
+    spec:
+      containers:
+      - name: APP
+        image: gcr.io/ORG/NAME:VERSION
+        command: ["./dispute"]
+        args: ["--env=ENV"]
+        env:
+        - name: DISPUTE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_HOST
+        - name: DISPUTE_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_PORT
+        - name: DISPUTE_DB
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB
+        - name: DISPUTE_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_USER
+        - name: DISPUTE_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_PASSWORD
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: JWT_SECRET
+        ports: 
+        - containerPort: 8181
+        resources: {}
+      
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: MIGRATION
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      labels:
+        app: MIGRATION
+    spec:
+      containers:
+      - name: MIGRATION
+        image: gcr.io/ORG/NAME-migration:VERSION
+        args: ["composeup"]
+        env:
+        - name: DISPUTE_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_HOST
+        - name: DISPUTE_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_PORT
+        - name: DISPUTE_DB
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB
+        - name: DISPUTE_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_USER
+        - name: DISPUTE_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: DISPUTE_DB_PASSWORD
+        - name: JWT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: DATA
+              key: JWT_SECRET
+      restartPolicy: Never
+  backoffLimit: 4
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: APP
+spec:
+  selector:
+    app: APP
+  ports:
+  - port: 80
+    targetPort: 8181
+  type: LoadBalancer
