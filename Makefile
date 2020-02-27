@@ -76,12 +76,12 @@ build-migrations:
 run-migrations: build-migrations
 	docker run --network host dispute-migration \
 	$(action) $(version) \
-	"mysql://$(DISPUTE_DB_USER):$(DISPUTE_DB_PASSWORD)@tcp($(DISPUTE_DB_HOST):$(DISPUTE_DB_PORT))/$(DISPUTE_DB_NAME)"
+	"mysql://$(DISPUTE_DB_USER):$(DISPUTE_DB_PASSWORD)@tcp($(DISPUTE_DB_HOST):$(DISPUTE_DB_PORT))/$(DISPUTE_DB)"
 
 migrate-latest: build-migrations
 	docker run --network host dispute-migration \
 	goto $(LAST_MIGRATION) \
-	"mysql://$(DISPUTE_DB_USER):$(DISPUTE_DB_PASSWORD)@tcp($(DISPUTE_DB_HOST):$(DISPUTE_DB_PORT))/$(DISPUTE_DB_NAME)"
+	"mysql://$(DISPUTE_DB_USER):$(DISPUTE_DB_PASSWORD)@tcp($(DISPUTE_DB_HOST):$(DISPUTE_DB_PORT))/$(DISPUTE_DB)"
 
 db-seed:
 	@echo "Seeding db"
